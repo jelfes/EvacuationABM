@@ -1,3 +1,4 @@
+# adapted from https://github.com/projectmesa/mesa-examples/blob/10985d44091b9ba1ecebd013d2d2252e2116649b/examples/boid_flockers/boid_flockers/SimpleContinuousModule.py
 import mesa
 
 

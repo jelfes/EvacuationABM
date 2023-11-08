@@ -2,7 +2,6 @@ import mesa
 import numpy as np
 
 from helpers import (
-    get_panic_level,
     get_normed_heading_vector,
     get_distance,
     get_distances,
