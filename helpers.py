@@ -27,6 +27,19 @@ def get_panic_level(model: mesa.Model) -> float:
     return mean_panic_level
 
 
+def get_num_agents(model: mesa.Model) -> float:
+    """
+    Calculate the number of agents that still remain in the model.
+
+    Args:
+        model (mesa.Model): Model that contains a set of agents.
+    Returns:
+        int: Number of agents.
+    """
+
+    return len(model.schedule.agents)
+
+
 def get_normed_heading_vector(pos1: np.array, pos2: np.array) -> np.array:
     heading_vector = pos2 - pos1
     magnitude = get_distance(pos1, pos2)

@@ -2,7 +2,7 @@ import mesa
 import numpy as np
 
 from agent import PanicAgent2
-from helpers import get_panic_level
+from helpers import get_panic_level, get_num_agents
 
 
 class PanicModel(mesa.Model):
@@ -43,7 +43,10 @@ class PanicModel(mesa.Model):
                 agent.group_number = i
 
         self.datacollector = mesa.DataCollector(
-            model_reporters={"panic": get_panic_level},
+            model_reporters={
+                "panic": get_panic_level,
+                "num_agents": get_num_agents,
+            },
             agent_reporters={
                 "panic": "panic",
                 "exporsure": "exposure",
