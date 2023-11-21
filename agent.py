@@ -12,11 +12,11 @@ from helpers import (
 class PanicAgent2(mesa.Agent):
     """An agent with a radius, friend set, resilience, exposure level and a panic level."""
 
-    def __init__(self, unique_id, model, resilience, mean_radius):
+    def __init__(self, unique_id, model, resilience, min_radius, min_velocity=0.1):
         super().__init__(unique_id, model)
         self.panic = 0
-        self.radius = self.random.random() * 0.2 + mean_radius
-        self.velocity = self.random.random() * 0.2 + 0.1
+        self.radius = self.random.random() * 0.2 + min_radius
+        self.velocity = self.random.random() * 0.2 + min_velocity
         self.resilience = resilience
         self.exposure = 0
         self.friends = set()

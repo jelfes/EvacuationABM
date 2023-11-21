@@ -9,14 +9,28 @@ class PanicModel(mesa.Model):
     """A model with some number of agents."""
 
     def __init__(
-        self, N, height, width, max_group_size, min_group_size, resilience, mean_radius
+        self,
+        N,
+        height,
+        width,
+        max_group_size,
+        min_group_size,
+        resilience,
+        min_radius,
+        min_velocity=0.1,
     ):
         self.num_agents = N
         self.space = mesa.space.ContinuousSpace(width, height, torus=True)
         self.schedule = mesa.time.RandomActivation(self)
         # Create agents
         for i in range(self.num_agents):
-            a = PanicAgent2(i, self, resilience=resilience, mean_radius=mean_radius)
+            a = PanicAgent2(
+                i,
+                self,
+                resilience=resilience,
+                min_radius=min_radius,
+                min_velocity=min_velocity,
+            )
             self.schedule.add(a)
             # Add the agent to a random space cell
             x = self.random.uniform(0, width)
