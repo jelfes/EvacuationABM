@@ -58,7 +58,7 @@ model_params = {
     "min_group_size": min_group_size,
     "max_group_size": max_group_size,
     "resilience": resilience,
-    "mean_radius": 0.5,
+    "min_radius": 0.5,
 }
 
 server = mesa.visualization.ModularServer(
