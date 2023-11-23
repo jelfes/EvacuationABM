@@ -20,7 +20,7 @@ def draw_agent(agent):
     return drawing_params
 
 
-panic_canvas = SimpleCanvas(draw_agent, 800, 800)
+panic_canvas = SimpleCanvas(draw_agent, 500, 500)
 
 chart = mesa.visualization.ChartModule(
     [{"Label": "panic", "Color": "#0000FF"}], data_collector_name="datacollector"
