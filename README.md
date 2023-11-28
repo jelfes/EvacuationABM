@@ -14,3 +14,4 @@ python run_webapp.py
 `helpers.py` set of helper funcitons;  
 `server.py` sets up the web application, defining parameter controls and visualizations;  
 `run_webapp.py` launches the webapp;
+`batch_experiment.ipynb` summary of the different experiments;
