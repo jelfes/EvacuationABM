@@ -13,5 +13,5 @@ python run_webapp.py
 `canvas.py` define a class to represent the continous space module on the web application;  
 `helpers.py` set of helper funcitons;  
 `server.py` sets up the web application, defining parameter controls and visualizations;  
-`run_webapp.py` launches the webapp;
+`run_webapp.py` launches the webapp;  
 `batch_experiment.ipynb` summary of the different experiments;
