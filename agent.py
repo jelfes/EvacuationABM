@@ -13,6 +13,16 @@ class PanicAgent2(mesa.Agent):
     """An agent with a radius, friend set, resilience, exposure level and a panic level."""
 
     def __init__(self, unique_id, model, resilience, min_radius, min_velocity=0.1):
+        """
+        Args:
+            unique_id (int): unique agent id
+            model (mesa.model): model the agent belongs to
+            resilience (int): number of epochs before the agent switches into panic
+            min_radius (flaot): minimal radius of agent
+            min_velocity (flaot): minimal velocity of agent
+
+        """
+
         super().__init__(unique_id, model)
         self.panic = 0
         self.radius = self.random.random() * 0.2 + min_radius
@@ -25,6 +35,13 @@ class PanicAgent2(mesa.Agent):
         self.w_neighbors = 0.25
 
     def move(self, unwanted_neighbors):
+        """
+        Movement algorithm for agents
+
+        Args:
+            unwanted_neighbors (list): list of agents within self.radius that are not in self.friends
+        """
+
         exit = np.array((0, 0))
         pos = np.array(self.pos)
 
@@ -34,7 +51,6 @@ class PanicAgent2(mesa.Agent):
 
         # way towards friends
         friends = list(self.friends)
-
         distances_friends = get_distances(pos, friends)
         closest_friend = friends[np.argmin(distances_friends)]
         closest_friend_distance = np.min(distances_friends)
@@ -54,11 +70,14 @@ class PanicAgent2(mesa.Agent):
             )
 
         magnitude = np.sqrt(np.sum(heading_vector_neighbors**2))
+
+        # prevent devision by 0 errors
         if magnitude < 1e-2:
             heading_vector_neighbors_norm = np.array((0, 0))
         else:
             heading_vector_neighbors_norm = heading_vector_neighbors / magnitude
 
+        # calculate new agent position
         new_pos = (
             pos
             + (
@@ -71,17 +90,21 @@ class PanicAgent2(mesa.Agent):
 
         new_pos = fix_position(self.model, new_pos)
 
+        # move agent
         self.model.space.move_agent(self, tuple(new_pos))
 
+        # remove agent from model if it reaches the exit
         if distance_exit < self.radius:
             self.model.space.remove_agent(self)
             self.model.schedule.remove(self)
 
     def step(self):
+        """Step funciton"""
         neighbors = set(self.model.space.get_neighbors(self.pos, self.radius))
 
         unwanted_neighbors = list(neighbors.difference(self.friends))
 
+        # update panic status of agent
         if len(unwanted_neighbors) > 1:
             self.exposure += 1
         else:
@@ -89,5 +112,6 @@ class PanicAgent2(mesa.Agent):
         if self.exposure > self.resilience:
             self.panic = 1
 
+        # move agent
         if self.pos is not None:
             self.move(unwanted_neighbors)
