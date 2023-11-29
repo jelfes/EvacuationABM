@@ -6,7 +6,7 @@ from helpers import get_panic_level, get_num_agents
 
 
 class PanicModel(mesa.Model):
-    """A model with some number of agents."""
+    """An ABM to model the development of mass panic during an evacuation scenario."""
 
     def __init__(
         self,
@@ -19,9 +19,23 @@ class PanicModel(mesa.Model):
         min_radius,
         min_velocity=0.1,
     ):
+        """
+        Args:
+            N (int): number of agents
+            height (float): height of the model space
+            width (float): width of the model space
+            max_group_size (int): maximum size of friend groups
+            min_group_size (int): minimum size of friend groups
+            resilience (int): number of epochs before an agent switches into panic
+            min_radius (flaot): minimal radius of agents
+            min_velocity (flaot): minimal velocity of agents
+
+        """
+
         self.num_agents = N
         self.space = mesa.space.ContinuousSpace(width, height, torus=True)
         self.schedule = mesa.time.RandomActivation(self)
+
         # Create agents
         for i in range(self.num_agents):
             a = PanicAgent2(
@@ -32,13 +46,14 @@ class PanicModel(mesa.Model):
                 min_velocity=min_velocity,
             )
             self.schedule.add(a)
-            # Add the agent to a random space cell
+
+            # place agent on model space
             x = self.random.uniform(0, width)
             y = self.random.uniform(0, height)
             self.space.place_agent(a, (x, y))
 
+        # devide agents into friend groups
         self.friend_groups = []
-
         agents = self.schedule.agents.copy()
 
         while len(agents) > 0:
@@ -56,6 +71,7 @@ class PanicModel(mesa.Model):
                 agent.friends = group
                 agent.group_number = i
 
+        # set up data collection
         self.datacollector = mesa.DataCollector(
             model_reporters={
                 "panic": get_panic_level,
