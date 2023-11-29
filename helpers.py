@@ -41,6 +41,15 @@ def get_num_agents(model: mesa.Model) -> float:
 
 
 def get_normed_heading_vector(pos1: np.array, pos2: np.array) -> np.array:
+    """
+    Calculate the normed heading vector between two positions
+
+    Args:
+        pos1 (np.array): first position
+        pos2 (np.array): second position
+    Returns:
+        np.array: normed heading vector.
+    """
     heading_vector = pos2 - pos1
     magnitude = get_distance(pos1, pos2)
 
@@ -53,12 +62,30 @@ def get_normed_heading_vector(pos1: np.array, pos2: np.array) -> np.array:
 
 
 def get_distance(pos1: np.array, pos2: np.array) -> float:
+    """
+    Calculate the distance between two positions
+
+    Args:
+        pos1 (np.array): first position
+        pos2 (np.array): second position
+    Returns:
+        float: distance.
+    """
     distance = np.sqrt(np.sum((pos2 - pos1) ** 2))
 
     return distance
 
 
 def get_distances(pos: np.array, lst: list) -> list:
+    """
+    Calculate the distance between one initial position and a list of other positions.
+
+    Args:
+        pos (np.array): initial position
+        lst (list): list of other positions
+    Returns:
+        list: list of distances.
+    """
     distances = []
     for agent in lst:
         if agent.pos is None:
